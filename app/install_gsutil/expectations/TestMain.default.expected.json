@@ -1,0 +1,19 @@
+{
+    "step_name": "install_gsutil",
+    "step": {
+        "command": [
+            "cipd.bat",
+            "ensure",
+            "-root",
+            "//packages",
+            "-ensure-file",
+            "//ph/0"
+        ],
+        "outputs": []
+    },
+    "result": {
+        "stdout": "",
+        "stderr": "",
+        "exit_code": 0
+    }
+}

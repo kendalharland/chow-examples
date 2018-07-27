@@ -1,22 +1,17 @@
 package cipd
 
 import (
-	"log"
-	"os/user"
+	"bytes"
+	"fmt"
 	"path/filepath"
 	"runtime"
 
 	"go.kendal.io/chow"
 )
 
-// TODO: Make this flexible enough to not rely on my local CIPD path.
+// Expects Chrome depot tools' cipd[.bat] to be on the current PATH.
 func executable() string {
-	usr, err := user.Current()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	path := usr.HomeDir + "/Downloads/a/depot_tools/cipd"
+	path := "cipd"
 	if runtime.GOOS == "windows" {
 		path += ".bat"
 	}
@@ -24,8 +19,15 @@ func executable() string {
 	return filepath.FromSlash(path)
 }
 
-func Ensure(pkg string, ver string) chow.StepProvider {
-	ensureFile := chow.Placeholder(pkg + " " + ver)
+func Ensure(packageVersions map[string]string) chow.StepProvider {
+	// Create ensure file.
+	contents := new(bytes.Buffer)
+	for pkg, ver := range packageVersions {
+		fmt.Fprintln(contents, pkg+" "+ver)
+	}
+	ensureFile := chow.Placeholder(contents.String())
+
+	// Install packages.
 	return &chow.SelfProvider{
 		Command: []string{
 			executable(),
