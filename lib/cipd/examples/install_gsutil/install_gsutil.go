@@ -10,7 +10,7 @@ func main() {
 }
 
 func RunSteps(r chow.Runner) {
-	r.Run("install_gsutil", cipd.Ensure(map[string]string{
-		"infra/tools/gsutil": "latest",
-	}))
+	r.Run("install_gsutil", cipd.Ensure(
+		"//packages/gsutil", map[string]string{"infra/tools/gsutil": "latest"},
+	))
 }

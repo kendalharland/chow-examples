@@ -9,7 +9,7 @@
             "-ensure-file",
             "//ph/0"
         ],
-        "outputs": []
+        "outputs": null
     },
     "result": {
         "stdout": "",

@@ -1,3 +1,4 @@
+// TODO: Declare outputs
 package cipd
 
 import (
@@ -21,26 +22,27 @@ func executable() string {
 
 // Install the given packges from CIPD.Ensure.
 //
-// The input maps package paths to the versions that should be installed.
+// packageVersions maps package paths to the versions that should be installed.
+// root is the directory to install files to.
+//
 // Example:  Ensure(map[string]string{"infra/tools/gsutil": "latest"})
-func Ensure(packageVersions map[string]string) chow.StepProvider {
+func Ensure(root string, packageVersions map[string]string) chow.Step {
 	// Create ensure file.
 	contents := new(bytes.Buffer)
 	for pkg, ver := range packageVersions {
 		fmt.Fprintln(contents, pkg+" "+ver)
 	}
 	ensureFile := chow.Placeholder(contents.String())
+	jsonOutput := chow.Placeholder("")
 
 	// Install packages.
-	return &chow.SelfProvider{
+	return chow.Step{
 		Command: []string{
 			executable(),
 			"ensure",
-			"-root",
-			"//packages",
-			"-ensure-file",
-			ensureFile,
+			"-root", root,
+			"-ensure-file", ensureFile,
+			"-json-output", jsonOutput,
 		},
-		Outputs: []string{},
 	}
 }
