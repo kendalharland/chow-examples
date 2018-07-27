@@ -19,6 +19,10 @@ func executable() string {
 	return filepath.FromSlash(path)
 }
 
+// Install the given packges from CIPD.Ensure.
+//
+// The input maps package paths to the versions that should be installed.
+// Example:  Ensure(map[string]string{"infra/tools/gsutil": "latest"})
 func Ensure(packageVersions map[string]string) chow.StepProvider {
 	// Create ensure file.
 	contents := new(bytes.Buffer)
