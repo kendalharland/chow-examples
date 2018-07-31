@@ -1,0 +1,104 @@
+{
+    "step_name": "ensure jiri",
+    "step": {
+        "command": [
+            "cipd.bat",
+            "ensure",
+            "-root",
+            "//packages/jiri",
+            "-ensure-file",
+            "//ph/0",
+            "-json-output",
+            "//ph/1"
+        ],
+        "outputs": null
+    },
+    "result": {
+        "stdout": "",
+        "stderr": "",
+        "exit_code": 0
+    }
+}
+{
+    "step_name": "jiri init",
+    "step": {
+        "command": [
+            "//packages/jiri/jiri",
+            "init",
+            "-v",
+            "-time",
+            "-analytics-opt=false",
+            "-rewrite-sso-to-https=true",
+            "-cache",
+            "//cache/git",
+            "-shared"
+        ],
+        "outputs": null
+    },
+    "result": {
+        "stdout": "",
+        "stderr": "",
+        "exit_code": 0
+    }
+}
+{
+    "step_name": "jiri import topaz",
+    "step": {
+        "command": [
+            "//packages/jiri/jiri",
+            "import",
+            "-v",
+            "-time",
+            "-name",
+            "topaz",
+            "-revision",
+            "c22471f4e3f842ae18dd9adec82ed9eb78ed1127",
+            "manifest/topaz",
+            "https://fuchsia.googlesource.com/topaz"
+        ],
+        "outputs": null
+    },
+    "result": {
+        "stdout": "",
+        "stderr": "",
+        "exit_code": 0
+    }
+}
+{
+    "step_name": "jiri update",
+    "step": {
+        "command": [
+            "//packages/jiri/jiri",
+            "update",
+            "-v",
+            "-time",
+            "-autoupdate=false",
+            "-attempts",
+            "3",
+            "-run-hooks=false"
+        ],
+        "outputs": null
+    },
+    "result": {
+        "stdout": "",
+        "stderr": "",
+        "exit_code": 0
+    }
+}
+{
+    "step_name": "jiri run-hooks",
+    "step": {
+        "command": [
+            "//packages/jiri/jiri",
+            "run-hooks",
+            "-attempts",
+            "3"
+        ],
+        "outputs": null
+    },
+    "result": {
+        "stdout": "",
+        "stderr": "",
+        "exit_code": 0
+    }
+}
